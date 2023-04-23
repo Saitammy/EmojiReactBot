@@ -14,16 +14,12 @@ def run_discord_bot():
 
     @client.event
     async def on_message(message):
-        if message.author == client.user:
-            return
 
-        if message.content:
-            await message.add_reaction('\U0001F64F')
+        if message.content == 'pray help':
+            await message.channel.send('Thank you for reaching out to the help section.\n1. pray for sending '
+                                       'image.\n2. pray gif to send random gif.')
 
-        if message.attachments:
-            await message.add_reaction('\U0001F64F')
-
-        if message.stickers:
+        if message.content or message.attachments or message.stickers:
             await message.add_reaction('\U0001F64F')
 
         if message.content == 'pray':

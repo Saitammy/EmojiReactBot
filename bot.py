@@ -1,7 +1,9 @@
 import discord
+import random
+
 
 def run_discord_bot():
-    token = 'MTA5ODYyMjI5MTc4NjYwODY0MQ.Gcielx.j8hDTjig_pxfjUML-IQ0jrd5kar8EdvfOG7I_A'
+    token = ''
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
@@ -15,13 +17,23 @@ def run_discord_bot():
         if message.author == client.user:
             return
 
-        if message.content[0] == 'a' or 'b' or 'c' or 'd' or 'e' or 'f' or 'g' or 'h' or 'i' or 'j' or 'k' or 'l' or 'm' or 'n' or 'o' or 'p' or 'q' or 'r' or 's' or 't' or 'u' or 'v' or 'w' or 'x' or 'y' or 'z':
+        if message.content:
             await message.add_reaction('\U0001F64F')
 
-        if message.content[0] == '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' or '9':
+        if message.attachments:
             await message.add_reaction('\U0001F64F')
 
-        if message.content[0] == '!' or '@' or '#' or '$' or '%' or '^' or '&' or '*' or '(' or ')' or '-' or '_' or '+' or '=' or '`' or '[' or ']' or '|':
+        if message.stickers:
             await message.add_reaction('\U0001F64F')
+
+        if message.content == 'pray':
+            with open('Pray.jpg', 'rb') as image:
+                await message.channel.send(file=discord.File(image, 'Pray.jpg'))
+
+        if message.content == 'pray gif':
+            gif = ['1.gif', '2.gif', '3.gif', '4.gif', '5.gif']
+            gifed = random.choice(gif)
+            with open(gifed, 'rb') as done:
+                await message.channel.send(file=discord.File(done, gifed))
 
     client.run(token)

@@ -1,9 +1,12 @@
 import discord
 import random
+import os
+
+discord_token = os.environ.get('DiscordBotToken')
 
 
 def run_discord_bot():
-    token = ''
+    token = discord_token
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)

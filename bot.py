@@ -1,43 +1,59 @@
 import discord
 import random
 import os
+import asyncio
+from dotenv import load_dotenv  # Load token from environment variable
 
-discord_token = os.environ.get('DiscordBotToken')
+# Load environment variables
+load_dotenv()
+discord_token = os.getenv("DiscordBotToken")  # Get token securely
 
+if discord_token is None:
+    print("Error: DiscordBotToken not found in .env file!")
+    exit(1)
 
-def run_discord_bot():
-    token = discord_token
-    intents = discord.Intents.default()
-    intents.message_content = True
-    client = discord.Client(intents=intents)
+# Set up intents
+intents = discord.Intents.default()
+intents.message_content = True  # Enable message content access
+client = discord.Client(intents=intents)
 
-    @client.event
-    async def on_ready():
-        print(f'{client.user} is now running!')
+@client.event
+async def on_ready():
+    print(f'{client.user} is now running!')
 
-    @client.event
-    async def on_message(message):
+@client.event
+async def on_message(message):
+    if message.author.bot:
+        return  # Ignore bot messages
 
-        if message.content == '!p help':
-            await message.channel.send('Thank you for reaching out to the help section.\n1. !p '
-                                       'image.\n2. !pg to send random gif.')
+    if message.content == '!p help':
+        await message.channel.send(
+            'Thank you for reaching out to the help section.\n'
+            '1. !p - Sends an image.\n'
+            '2. !pg - Sends a random GIF.'
+        )
 
-        if message.content or message.attachments or message.stickers:
-            await message.add_reaction('\U0001F64F')
+    if message.content or message.attachments or message.stickers:
+        await message.add_reaction('🙏')
 
-        if message.content == '!p':
-            with open('Pray.jpg', 'rb') as image:
-                await message.channel.send(file=discord.File(image, 'Pray.jpg'))
+    if message.content == '!p':
+        if os.path.exists('Pray.jpg'):
+            await message.channel.send(file=discord.File('Pray.jpg'))
+        else:
+            await message.channel.send("Image file not found!")
 
-        if message.content == '!pg':
-            gif = ['1.gif', '2.gif', '3.gif', '4.gif', '5.gif']
-            gifed = random.choice(gif)
-            with open(gifed, 'rb') as done:
-                await message.channel.send(file=discord.File(done, gifed))
+    if message.content == '!pg':
+        gif_files = ['1.gif', '2.gif', '3.gif', '4.gif', '5.gif']
+        selected_gif = random.choice(gif_files)
+        if os.path.exists(selected_gif):
+            await message.channel.send(file=discord.File(selected_gif))
+        else:
+            await message.channel.send("GIF file not found!")
 
+# Run bot properly
+async def main():
+    async with client:
+        await client.start(discord_token)
 
-    client.run(token)
-
-
-if __name__ == '__bot.py__':
-    run_discord_bot()
+if __name__ == "__main__":
+    asyncio.run(main())  # Correct way to start a bot

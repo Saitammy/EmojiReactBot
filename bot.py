@@ -2,19 +2,18 @@ import discord
 import random
 import os
 import asyncio
-from dotenv import load_dotenv  # Load token from environment variable
+from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-discord_token = os.getenv("DiscordBotToken")  # Get token securely
+discord_token = os.getenv("DiscordBotToken")
 
 if discord_token is None:
-    print("Error: DiscordBotToken not found in .env file!")
+    print("Error - DiscordBotToken not found in .env file!")
     exit(1)
 
-# Set up intents
 intents = discord.Intents.default()
-intents.message_content = True  # Enable message content access
+intents.message_content = True
 client = discord.Client(intents=intents)
 
 @client.event
@@ -24,7 +23,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.author.bot:
-        return  # Ignore bot messages
+        return 
 
     if message.content == '!p help':
         await message.channel.send(
@@ -50,10 +49,9 @@ async def on_message(message):
         else:
             await message.channel.send("GIF file not found!")
 
-# Run bot properly
 async def main():
     async with client:
         await client.start(discord_token)
 
 if __name__ == "__main__":
-    asyncio.run(main())  # Correct way to start a bot
+    asyncio.run(main()) 

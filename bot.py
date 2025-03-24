@@ -4,7 +4,7 @@ import os
 import asyncio
 from dotenv import load_dotenv
 
-# Load environment variables
+# This function loads the environment variable.
 load_dotenv()
 discord_token = os.getenv("DiscordBotToken")
 

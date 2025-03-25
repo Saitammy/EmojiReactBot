@@ -1,9 +1,9 @@
 # Emoji Reacting Discord Bot
 
 This is an emoji reacting discord bot that will add reactions to any messages sent in a server. Additionally the bot can also perform the following :
-- Help command for users (pray help)
-- Send an image (pray)
-- Send a random gif (pray gif)
+- Help command for users (!p help)
+- Send an image (!p)
+- Send a random gif (!pg)
 
 Screenshot demonstrating the bot :
 
